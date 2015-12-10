@@ -8,9 +8,15 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
+
+    private Button ourButton;
+    private TextView ourMessage;
+    private int numTimeClicked = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,6 +24,22 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        ourButton = (Button) findViewById(R.id.button);
+        ourMessage = (TextView) findViewById(R.id.textView);
+
+        View.OnClickListener ourOnClickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                numTimeClicked += 1;
+                String result = "The button got tapped " + numTimeClicked + " time";
+                if(numTimeClicked != 1){
+                    result += "s...";
+                }
+                ourMessage.setText(result);
+            }
+        };
+
+        ourButton.setOnClickListener(ourOnClickListener);
 
 //        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 //        fab.setOnClickListener(new View.OnClickListener() {
@@ -45,8 +67,9 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            Toast toastMessage = Toast.makeText(this, "The settings menu option got tapped", Toast.LENGTH_LONG);
+            Toast toastMessage = Toast.makeText(this, "Text value is now " + ourMessage.getText(), Toast.LENGTH_LONG);
             toastMessage.show();
+            numTimeClicked = 0;
             return true;
         }
 
